@@ -103,14 +103,61 @@ public class TicTacToe {
         todasPecas.add(peca);
         tabuleiro.atualizarTabuleiro(todasPecas);
     }
+    
+    static boolean vencedor(Tabuleiro tabuleiro){
+        char[][] p = tabuleiro.localizacaoPecas;
+        
+        for (int i = 0; i < 3; i++){
+            if(p[i][0] != ' ' && p[i][0] == p[i][1] && p[i][1] == p[i][2]){
+                return true;
+            }
+            if(p[0][i] != ' ' && p[0][i] == p[1][i] && p[1][i] == p[2][i]){
+                return true;
+            }
+        }
+        
+        if (p[0][0] != ' ' && p[0][0] == p[1][1] && p[1][1] == p[2][2]){
+            return true;
+        }
+        if(p[0][2] != ' ' && p[0][2] == p[1][1] && p[1][1] == p[2][0]){
+            return true;
+        }
+        
+        return false;
+    }
 
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int rodar = 1;
+        String continuar;
         Tabuleiro tabuleiro = new Tabuleiro();
         ArrayList<Pecas> todasPecas = new ArrayList<>();
         tabuleiro.escreverRegras();
         tabuleiro.imprimirTabuleiro(); // Imprime o tabuleiro inicial
-        while (true) {
+        while(rodar == 1){
             jogar(tabuleiro, todasPecas);
-        }
-    }
+            if(vencedor(tabuleiro) || Pecas.nJogadas == 9){
+                if(Pecas.nJogadas == 9){
+                    System.out.println("Deu Velha");
+                }else{
+                    System.out.println("Temos um vencedor");
+                }
+                System.out.println("Deseja jogar de novo? (s/n)");
+                do{
+                continuar = scan.nextLine();
+                }while(!continuar.equalsIgnoreCase("n") && !continuar.equalsIgnoreCase("s"));
+                if(continuar.equalsIgnoreCase("n")){
+                    System.exit(0);
+                }else{
+                    todasPecas.clear();
+                    Pecas.nJogadas = 0;
+                    for(int i = 0; i < 3; i++){
+                        for(int j = 0; j < 3; j++){
+                            tabuleiro.localizacaoPecas[i][j] = ' ';
+                        }
+                    }
+                }
+            }      
+        }    
+   }
 }
