@@ -99,15 +99,50 @@ public class TicTacToe{
         todasPecas.add(peca);
         tabuleiro.atualizarTabuleiro(todasPecas);
         
+        if(vencedor(tabuleiro)){
+        System.out.println("Temos um vencedor");
+        System.exit(0);
+        }else if(Pecas.nJogadas == 9){
+            System.out.println("Deu Velha");
+            System.exit(0);
+        }
+        
     }
-    
+    static boolean vencedor(Tabuleiro tabuleiro){
+        char[][] p = tabuleiro.localizacaoPecas;
+        
+        for (int i = 0; i < 3; i++){
+            if(p[i][0] != ' ' && p[i][0] == p[i][1] && p[i][1] == p[i][2]){
+                return true;
+            }
+            if(p[0][i] != ' ' && p[0][i] == p[1][i] && p[1][i] == p[2][i]){
+                return true;
+            }
+        }
+        
+        if (p[0][0] != ' ' && p[0][0] == p[1][1] && p[1][1] == p[2][2]){
+            return true;
+        }
+        if(p[0][2] != ' ' && p[0][2] == p[1][1] && p[1][1] == p[2][0]){
+            return true;
+        }
+        
+        return false;
+    }
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
         int rodar = 1;
         Tabuleiro tabuleiro = new Tabuleiro();
         ArrayList<Pecas> todasPecas = new ArrayList<>();
         tabuleiro.escreverRegras();
         while(rodar == 1){
+            System.out.print("Deseja continuar(s/n)?");
+            String answer = scan.nextLine();
+            if(answer.equalsIgnoreCase("n")){
+                rodar = 2;
+            }else{
             jogar(tabuleiro, todasPecas);
+            }
         }
     }
 }
