@@ -94,7 +94,7 @@ public class TicTacToe {
                 Socket player2Socket = serverSocket.accept();
                 System.out.println("Jogador 2 conectado: " + player2Socket.getInetAddress().getHostAddress());
 
-                new GameHandler(player1Socket, player2Socket).start();
+                new ServidorJogo(player1Socket, player2Socket).start();
             }
         } catch (IOException e) {
             e.printStackTrace();
